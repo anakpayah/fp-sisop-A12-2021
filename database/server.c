@@ -11,7 +11,7 @@
 #include <syslog.h>
 #define PORT 8080
 
-static  const  char *dirpath = "/home/kelvin/server";
+static  const  char *dirpath = "/home/kelvin/server/databases";
 
 int check(char string1[], char string2[]){
     for(int i=0; i<strlen(string2); i++){
