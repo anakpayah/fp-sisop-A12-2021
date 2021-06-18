@@ -82,13 +82,12 @@ int main(int argc, char const *argv[]) {
 
         sprintf(string2,"CREATE DATABASE ");
         if(check(string1,string2)==1){
-            if(!path[0]) sprintf(path,"%s",dirpath);
             char filename[50];
             for(int i=0;buffer[16+i]!='\0';i++){
                 filename[i]=buffer[16+i];
             }
             char fpath[500];
-            sprintf(fpath,"%s/%s",path,filename);
+            sprintf(fpath,"%s/%s",dirpath,filename);
             mkdir(fpath,S_IRWXU);
             for(int i=0;i<sizeof buffer; i++){
                 buffer[i]='\0';
