@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <zconf.h>
 #define PORT 8080
 #define ADD 0
 

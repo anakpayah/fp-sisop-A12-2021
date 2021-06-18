@@ -12,6 +12,7 @@
 #include <time.h>
 #include <wait.h>
 #include <dirent.h>
+#include <stdbool.h> 
 #define PORT 8080
 #define REGISTER 0
 #define LOGIN 1
@@ -21,7 +22,8 @@ typedef struct Acount {
 	char user[101], pass[101];
 }akun;
 
-static  const  char *dirpath = "/home/kelvin/server";
+static  const  char *dirpath = "/home/kelvin/server/databases";
+akun seseorang;
 
 int check(char string1[], char string2[]){
     for(int i=0; i<strlen(string2); i++){
@@ -37,7 +39,7 @@ void create_account(char *query) {
 	sscanf(query,"%s %s %s %s %s %s", command, command, username, command, command, password);
 	FILE *f;
 	f = fopen("/home/kelvin/server/databases/acount.scsv","r");
-	bool = false;
+	bool ada = false;
 	while (fscanf(f,"%s",buffer) !=EOF) {
 		const char pemisah[1]= ";";
 		char *clean;
@@ -48,7 +50,7 @@ void create_account(char *query) {
 		
 		while(clean !=NULL) {
 			clean=strtok(NULL, pemisah);
-			if (strle(pass)==0) strcpy(pass,clean);
+			if (strlen(pass)==0) strcpy(pass,clean);
 		
 		}
 		if (strcmp(username,user) == 0 ) {
@@ -59,7 +61,7 @@ void create_account(char *query) {
 	fclose(f);
 	if (ada) printf ("User Telah Ada!");
 	else {
-		respond = "User Registered!";
+		printf ("User Registered!");
 		f = fopen("/home/kelvin/server/databases/acount.scsv","a");
 		fprintf(f,"%s;%s\n",username,password);
 		fclose(f);
@@ -74,7 +76,7 @@ void write_log(char *command){
 	timer = time(NULL);
 	tm_info = localtime(&timer);
 	strftime(buffer,5010,"%Y-%m-%d %X:",tm_info);
-	strcat(buffer,akun.user);
+	strcat(buffer,seseorang.user);
 	strcat(buffer,":");
 	strcat(buffer,command);
 	FILE* f;
@@ -136,7 +138,7 @@ int main(int argc, char const *argv[]) {
     while (1) {
     
     	if (!logged) {
-    		if (recv(new_socket (void*)&login,sizeof(login),0) < 0) {
+    		if (recv(new_socket,(void*)&seseorang,sizeof(seseorang),0) < 0) {
 				perror("Login Attempt Failed");
 				exit(EXIT_FAILURE);
 			}
@@ -152,14 +154,15 @@ int main(int argc, char const *argv[]) {
     			strcpy(user,clean);
     			strcpy(pass,"");
     			
-    			if(strcmp(user,akun.user)==0) {
+    			if(strcmp(user,seseorang.user)==0) {
     				ada=true;
-    				if (strcmp(pass,akun.pass)==0);
+    				if (strcmp(pass,seseorang.pass)==0);
     				break;
     			}    		
     		}
+    	fclose(f);	
     	}
-    	fclose(f)
+    	
     	
         if (listen(server_fd, 3) < 0) {
             perror("listen");
