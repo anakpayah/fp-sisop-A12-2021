@@ -1,17 +1,26 @@
 #include <stdio.h>
 #include <sys/socket.h>
-#include <stdlib.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <unistd.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <zconf.h>
 #define PORT 8080
+#define ADD 0
+
+typedef struct Acount {
+	char user[101], pass[101];
+}akun;
+	
   
 int main(int argc, char const *argv[]) {
+
+	akun seseorang;
+	
     struct sockaddr_in address;
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char *hello;
+    char *hello = "hai, iam Client";
     char string[100];
     char buffer[1024] = {0};
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
