@@ -77,7 +77,7 @@ int main(int argc, char const *argv[]) {
             exit(EXIT_FAILURE);
         }
         valread = read( new_socket , buffer, 1024);
-        char string1[2000],string2[100],path[200];
+        char string1[2000],string2[100],path[100];
         sprintf(string1,"%s",buffer);
 
         sprintf(string2,"CREATE DATABASE ");
@@ -89,27 +89,22 @@ int main(int argc, char const *argv[]) {
             char fpath[500];
             sprintf(fpath,"%s/%s",dirpath,filename);
             mkdir(fpath,S_IRWXU);
-            for(int i=0;i<sizeof buffer; i++){
-                buffer[i]='\0';
-            }
-            for(int i=0;i<sizeof buffer; i++){
-                path[i]='\0';
-            }
-            sprintf(path,"%s",dirpath);
         }
 
         sprintf(string2,"USE ");
         if(check(string1,string2)==1){
-            char fpath[100];
+            char fpath[50];
             for(int i=0;buffer[4+i]!='\0';i++){
                 fpath[i]=buffer[4+i];
             }
             char oripath[50];
             sprintf(oripath,"%s",dirpath);
             sprintf(path,"%s/%s",oripath,fpath);
+            
         }
         printf("%s\n",buffer );
-        send(new_socket , path , strlen(path) , 0 );
+        send(new_socket ,buffer , strlen(buffer) , 0 );
+        memset(buffer,'\0',1024);
         printf("Hello message sent\n");
         sleep(5);
     }
